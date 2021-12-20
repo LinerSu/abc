@@ -1812,6 +1812,7 @@ void Abc_NtkReassignIds( Abc_Ntk_t * pNtk )
     Abc_Obj_t * pNode, * pTemp, * pConst1;
     int i, k;
     assert( Abc_NtkIsStrash(pNtk) );
+    vNodes = Abc_AigDfs( pNtk, 1, 0 );
 //printf( "Total = %d. Current = %d.\n", Abc_NtkObjNumMax(pNtk), Abc_NtkObjNum(pNtk) );
     // start the array of objects with new IDs
     vObjsNew = Vec_PtrAlloc( pNtk->nObjs );
@@ -1848,7 +1849,6 @@ void Abc_NtkReassignIds( Abc_Ntk_t * pNtk )
         }
     }
     // finally, internal nodes in the DFS order
-    vNodes = Abc_AigDfs( pNtk, 1, 0 );
     Vec_PtrForEachEntry( Abc_Obj_t *, vNodes, pNode, i )
     {
         if ( pNode == pConst1 )

@@ -53,9 +53,18 @@ build/
 tags
 
 /libabc.a
+*.a
+*.so
 /abc
 
 /arch_flags
 
 /cmake
 /cscope
+
+CMakeFiles/
+CMakeCache.txt
+*.ninja
+.ninja*
+*.cmake
+*.exe

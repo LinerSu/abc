@@ -38,6 +38,7 @@ ABC_NAMESPACE_HEADER_START
 
 typedef struct MvCommand    Abc_Command;  // one command
 typedef struct MvAlias      Abc_Alias;    // one alias
+typedef struct Abc_Frame_t_ Abc_Frame_t;
 
 ////////////////////////////////////////////////////////////////////////
 ///                       MACRO DEFINITIONS                          ///

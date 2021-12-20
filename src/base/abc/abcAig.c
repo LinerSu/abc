@@ -733,9 +733,9 @@ Abc_Obj_t * Abc_AigOr( Abc_Aig_t * pMan, Abc_Obj_t * p0, Abc_Obj_t * p1 )
 
 ***********************************************************************/
 Abc_Obj_t * Abc_AigXor( Abc_Aig_t * pMan, Abc_Obj_t * p0, Abc_Obj_t * p1 )
-{
-    return Abc_AigOr( pMan, Abc_AigAnd(pMan, p0, Abc_ObjNot(p1)), 
-                            Abc_AigAnd(pMan, p1, Abc_ObjNot(p0)) );
+{ // a xor b == not ( not a and not b ) and not ( a and b )  
+    return Abc_AigAnd( pMan, Abc_ObjNot(Abc_AigAnd(pMan, Abc_ObjNot(p0), Abc_ObjNot(p1))), 
+                            Abc_ObjNot(Abc_AigAnd(pMan, p0, p1)) );
 }
 
 /**Function*************************************************************
@@ -1292,10 +1292,19 @@ void Abc_AigPrintNode( Abc_Obj_t * pNode )
     // print the node's function
     printf( "%7s%s", Abc_ObjName(pNodeR),                Abc_ObjIsComplement(pNode)? "\'" : "" );
     printf( " = " );
-    printf( "%7s%s", Abc_ObjName(Abc_ObjFanin0(pNodeR)), Abc_ObjFaninC0(pNodeR)?     "\'" : "" );
-    printf( " * " );
-    printf( "%7s%s", Abc_ObjName(Abc_ObjFanin1(pNodeR)), Abc_ObjFaninC1(pNodeR)?     "\'" : "" );
-    printf( "\n" );
+    if (Abc_ObjFaninNum(pNode) == 1) {
+        printf( "%7s%s", Abc_ObjName(Abc_ObjFanin0(pNodeR)), Abc_ObjFaninC0(pNodeR)?     "\'" : "" );
+        printf( "\n" );
+        Abc_AigPrintNode(Abc_ObjFanin0(pNodeR));
+    }
+    else {
+        printf( "%7s%s", Abc_ObjName(Abc_ObjFanin0(pNodeR)), Abc_ObjFaninC0(pNodeR)?     "\'" : "" );
+        printf( " * " );
+        printf( "%7s%s", Abc_ObjName(Abc_ObjFanin1(pNodeR)), Abc_ObjFaninC1(pNodeR)?     "\'" : "" );
+        printf( "\n" );
+        Abc_AigPrintNode(Abc_ObjFanin0(pNodeR));
+        Abc_AigPrintNode(Abc_ObjFanin1(pNodeR));
+    }
 }
 
 
